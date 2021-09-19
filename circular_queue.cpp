@@ -44,7 +44,9 @@ public:
 		    return false;
 	    		
 	    }
-	    head++;
+	    if(head+1==size) head =0; 
+	    else head++;
+
 	    counter--;
 	    return true;
 		//return false if empty 
