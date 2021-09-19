@@ -2,40 +2,50 @@
 #include <iostream>
 class MyCircularQueue {
 private:
-	int tail=0;
-	int head =0;
+	int tail = 0;
+	int head = 0;
 	int size;
+	int * array_ptr;
+	int counter =0;
 		       	
 public:
     MyCircularQueue(int k) {
         
-        int Queue[k];
-	size=k; 
+        array_ptr = (int*)malloc(sizeof(int)*k); 
+	size=k;
+       	
+		
     }
     
     bool enQueue(int value) {
-        if(Queue.isFull())
+        if(isFull())
 	{
 		return false;
 	}
 
-	if(tail +1 >=size)
+	if(tail==size) //
 	{
 		tail = 0;
-	       	Queue[tail] = value;	
+	       	array_ptr[tail] = value;	
 	}
-	else Queue[tail++] = value;
+	else {
+		array_ptr[tail] = value;
+		
+	};
 	
+	tail++;
+	counter++;	
 	return true;
     }
     
     bool deQueue() {
-	    if (Queue.isEmpty())
-	    {
+	    if (isEmpty())
+	    {	
 		    return false;
 	    		
 	    }
 	    head++;
+	    counter--;
 	    return true;
 		//return false if empty 
 		//true if not
@@ -44,29 +54,29 @@ public:
     }
     
     int Front() {
-	    if(Queue.isEmpty()){
+	    if(isEmpty()){
 	    	return -1;
 	    }
-	    return queue[head];
+	    return array_ptr[head];
         
     }
     
     int Rear() {
 	   
-	    if(Queue.isEmpty()){
+	    if(isEmpty()){
 	    	return -1;
 	    }
-
-	    return Queue[tail];
+	    
+	    return array_ptr[tail-1];
     }
     
     bool isEmpty() {
-        return head == tail;     
+        return counter == 0;     
         
     }
     
     bool isFull() {
-	    if (head + tail+1 == size || head-1 ==tail) return true;
+	    return counter == size;
         
     }
 };
@@ -74,15 +84,21 @@ public:
 
 int main()
 {
-	MyCircularQueue myCircularQueue = new MyCircularQueue(3);
-	/*printf("enqueue 1 - %s", myCircularQueue.enQueue(1) ? "true" : "false"); // return True
-	printf("enqueue 2 - %s", myCircularQueue.enQueue(2) ? "true" : "false"); // return True
-	printf("enqueue 3 - %s", myCircularQueue.enQueue(3) ? "true" : "false"); // return True
-	printf("enqueue 4 - %s", myCircularQueue.enQueue(4) ? "true" : "false"); // return False
-	printf("rear: %d", myCircularQueue.Rear());                              // return 3
-	printf("full - %s", myCircularQueue.isFull());                          // return True
-	printf("dequeue - %s", myCircularQueue.deQueue() ? "true" : "false");  // return True
-	printf("enqueue - %s", myCircularQueue.enQueue(4) ? "true" : "false"); // return True
-	printf("rear: %d", myCircularQueue.Rear());     // return 4
-	*/	
-}
+	MyCircularQueue myCircularQueue =  MyCircularQueue(3);
+	printf("enqueue 1 - %s \n", myCircularQueue.enQueue(1) ? "true" : "false"); // return True
+	printf("enqueue 2 - %s \n", myCircularQueue.enQueue(2) ? "true" : "false"); // return True
+	printf("enqueue 3 - %s \n", myCircularQueue.enQueue(3) ? "true" : "false"); // return True
+	printf("enqueue 4 - %s \n", myCircularQueue.enQueue(4) ? "true" : "false"); // return False
+	
+	printf("rear: %d\n", myCircularQueue.Rear()); // return 3
+	
+	printf("full - %s\n", myCircularQueue.isFull() ? "true" : "false"); // return True
+	printf("dequeue - %s\n", myCircularQueue.deQueue() ? "true" : "false");  // return True
+	printf("enqueue - %s\n", myCircularQueue.enQueue(4) ? "true" : "false"); // return True
+	printf("rear: %d\n", myCircularQueue.Rear());     // return 4
+
+	return 0;
+	
+
+		
+};
