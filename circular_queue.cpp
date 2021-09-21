@@ -2,11 +2,12 @@
 #include <iostream>
 class MyCircularQueue {
 private:
-	int tail = 0;
+		int tail = 0;
 	int head = 0;
 	int size;
 	int * array_ptr;
 	int counter =0;
+
 		       	
 public:
     MyCircularQueue(int k) {
@@ -16,6 +17,12 @@ public:
        	
 		
     }
+    ~MyCircularQueue(){
+	printf("\nAllocated heap memory freed");
+	free(array_ptr);	
+    }
+
+
     
     bool enQueue(int value) {
         if(isFull())
@@ -87,18 +94,22 @@ public:
 int main()
 {
 	MyCircularQueue myCircularQueue =  MyCircularQueue(3);
-	printf("enqueue 1 - %s \n", myCircularQueue.enQueue(1) ? "true" : "false"); // return True
-	printf("enqueue 2 - %s \n", myCircularQueue.enQueue(2) ? "true" : "false"); // return True
-	printf("enqueue 3 - %s \n", myCircularQueue.enQueue(3) ? "true" : "false"); // return True
-	printf("enqueue 4 - %s \n", myCircularQueue.enQueue(4) ? "true" : "false"); // return False
-	
-	printf("rear: %d\n", myCircularQueue.Rear()); // return 3
-	
-	printf("full - %s\n", myCircularQueue.isFull() ? "true" : "false"); // return True
-	printf("dequeue - %s\n", myCircularQueue.deQueue() ? "true" : "false");  // return True
-	printf("enqueue - %s\n", myCircularQueue.enQueue(4) ? "true" : "false"); // return True
-	printf("rear: %d\n", myCircularQueue.Rear());     // return 4
 
+
+	printf("Test Case 1\n");
+	
+	printf("enqueue 1 - Expected: True... Result: %s \n", myCircularQueue.enQueue(1) ? "true" : "false"); 
+	printf("enqueue 2 - Expected: True... Result: %s \n", myCircularQueue.enQueue(2) ? "true" : "false"); 
+	printf("enqueue 3 - Expected: True... Result: %s \n", myCircularQueue.enQueue(3) ? "true" : "false"); 
+	printf("enqueue 4 -Expected: False... Result: %s \n", myCircularQueue.enQueue(4) ? "true" : "false"); 
+	
+	printf("Queue.rear() - Expected: 3... Result: %d\n", myCircularQueue.Rear()); 
+	
+	printf("full - Expected: True... Result: %s\n", myCircularQueue.isFull() ? "true" : "false"); 
+	printf("dequeue - Expected: True... Result: %s\n", myCircularQueue.deQueue() ? "true" : "false");  
+	printf("enqueue - Expected: True... Result: %s\n", myCircularQueue.enQueue(4) ? "true" : "false"); 
+	printf("Queue.rear() -  Expected: 4... Result: %d\n", myCircularQueue.Rear());     // return 4
+	
 	return 0;
 	
 
