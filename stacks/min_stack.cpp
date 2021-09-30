@@ -2,57 +2,58 @@
 #include <iostream>
 #include <vector>
 
+
+/*
+ Constraints:
+
+    -231 <= val <= 231 - 1
+    Methods pop, top and getMin operations will always be called on non-empty stacks.
+    At most 3 * 104 calls will be made to push, pop, top, and getMin.
+*/
+
 using namespace std;
 
 class MinStack {
 	private:
 		vector<int> stack;
-		int size;
-
-		
+			
 
 	public:
-    		MinStack() 
-		{
-			this -> size =0;
-    		}
-    
+    		 
     		void push(int val) 
-		{
+		{			
 			stack.push_back(val);
-			size++;
-        
+			printf("pushed(%d)\n", val);
+
     		}
     
     		void pop() 
 		{
-			size--; 
-        
-    		}
+			stack.pop_back();
+    			printf("Pop!\n");
+
+		}
     
     		int top() 
 		{
-			return stack[size-1];
+			return stack.back();
         
     		}
     
     		int getMin() 
 		{
-			int min_value;
-			for(auto curr: stack)
-			{
-				if(min_value > curr)
-				{
-					min_value = curr ;
-				}
-				
+			int min_value = stack.front();	
+			for(auto& curr_value: stack)
+			{	
+				if(min_value> curr_value) min_value = curr_value;
+							
 			}
 			return min_value;
         
     		}
  		void operator delete(void *ptr)
         	{
-            		cout << "memory freed from heap" << endl;
+            		printf("\nmemory freed from heap");
             		free(ptr);
         	}
 };
@@ -62,24 +63,20 @@ int main()
 {
 	MinStack* stack = new MinStack(); //object created on heap
 
-	/*stack -> push(5);
-	printf("%d\n", stack -> top()); 
+	stack -> push(5);
 	stack -> push(32);
-	printf("%d\n", stack -> top()); 
 	stack -> pop();
-	printf("%d\n", stack -> top()); 
-	*/
-
 	stack -> push(-2);
-	stack -> push(-4);
-	stack -> push(-74);
-	stack -> push(89);
-	stack -> push(85);
-	stack -> push(86);
-	stack -> push(87);
+	stack -> push(9);
+	stack -> push(-3);
 
+	printf("min value: %d\n", stack -> getMin()); 
 
-	printf("%d\n", stack -> getMin()); 
+	stack -> pop();
+	
+	printf("top of stack: %d\n", stack -> top());
+	
+	printf("min value: %d\n", stack -> getMin()); 
 
 	delete stack;//manually releases 	
 
