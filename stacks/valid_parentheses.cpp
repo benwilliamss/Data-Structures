@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <string>
 
 
 using namespace std;
@@ -28,11 +29,11 @@ class Solution {
 		 
 		 respective_bracket_not_found=true;
 
-	 	 //cout << "\n\n Current string: " <<  s << "\n" << endl;
+	 	 cout << "\n\n Current string: " <<  s << "\n" << endl;
 
 		 popped_char = s.back(); //get back element 
 		 s.pop_back(); //remove back element 
-		 //printf("popped_char %c\n", popped_char);
+		 printf("popped_char %c\n", popped_char);
 
 
 			
@@ -58,15 +59,27 @@ class Solution {
 							
 		 }
 		 
+		 if(s.front()==char_to_look_for)
+		 { //check front for bracket match first
+		 	s.erase(0,1); 
+		 	continue;
+		 }
+
+
 		 for(int i= (s.length()-1); i>=0; i--){
 					 	
 		 	if(s[i] == char_to_look_for)
-			{	
-				respective_bracket_not_found = false; 
-				s.erase(i,1); //remove element, not considered again
-				break;
+			{	int sub_string_length = s.length()-i;
+				if(isValid( s.substr(i+1,sub_string_length) )){
+					respective_bracket_not_found = false; 
+					s.erase(i,sub_string_length); //remove substring
+					break;
+				}
+				else{return false;}
 			}
 		 } 
+
+
 		if(respective_bracket_not_found) return false;
 
 	 }
@@ -83,9 +96,9 @@ int main()
 	
 	//printf("\nstring valid: %s", solution_one.isValid("[({(())}[()])]") ? "true" : "false");
 	//printf("\nstring valid: %s", solution_one.isValid("((") ? "true" : "false");
-	//printf("\nstring valid: %s", solution_one.isValid("{({()[]})}") ? "true" : "false");
+//	printf("\nstring valid: %s", solution_one.isValid("{({()[]})}") ? "true" : "false");
 	//printf("\n string valid: %s", solution_one.isValid("{}()[]") ? "true" : "false");
-	//printf("\nstring valid: %s", solution_one.isValid("[[]{}}") ? "true" : "false");
+	//printf("\nstring valid: %s", solution_one.isValid("{[}]") ? "true" : "false");
 
 
 
