@@ -1,104 +1,76 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 
 using namespace std;
 
 class Solution {
-    
-    public:
-    bool isValid(string s) 
-    {
-         	
- 	 
-	 if(s.length() % 2 !=0)
-	 { 
-		 printf("Odd amount of brackets");
-		 return false; //odd amount of brackets, always false
-	 }
+public:
+	bool isValid(string s) {
+
+		vector<char> stack;
+		char current_char;
+		//cout << "string: " << s<< endl;
+
+		for (int i = 0; i < s.length(); i++)
+		{
+			current_char = s[i];
 		
-	 char popped_char;
-	 char char_to_look_for; 
-	 bool respective_bracket_not_found;//stops checking anymore for matches when this flag is true
-	
+			if (current_char == '[' || current_char == '(' || current_char == '{') stack.push_back(current_char);
+			else if (!stack.empty())
+			{
 
-	 //pop char, compare if the corresponding bracket is either next or at the front
-	 while(!s.empty())
-	 {	
-		 
-		 respective_bracket_not_found=true;
+				switch (current_char)
+				{
 
-	 	 cout << "\n\n Current string: " <<  s << "\n" << endl;
+					case ')':
 
-		 popped_char = s.back(); //get back element 
-		 s.pop_back(); //remove back element 
-		 printf("popped_char %c\n", popped_char);
+						//printf("\npopped % c", stack.back());
+						if (stack.back() != '(') return false;
+						stack.pop_back();
+						break;
 
 
-			
-		 switch(popped_char)
-		 {
-				
-				case ')':
-					char_to_look_for = '('; 
-					break;
+					case '}':
 
-				case ']': 
-					char_to_look_for = '[';
-					break;
-
-				case '}':
-					char_to_look_for = '{'; 
-					break;
-				default:
-					//hit a left bracket
-					//which already should be removed by this point
-					//string not valid
-					return false;			
-							
-		 }
-		 
-		 if(s.front()==char_to_look_for)
-		 { //check front for bracket match first
-		 	s.erase(0,1); 
-		 	continue;
-		 }
+						//printf("\npopped %c", stack.back());
+						if (stack.back() != '{') return false;
+						stack.pop_back();
+						break;
 
 
-		 for(int i= (s.length()-1); i>=0; i--){
-					 	
-		 	if(s[i] == char_to_look_for)
-			{	int sub_string_length = s.length()-i;
-				if(isValid( s.substr(i+1,sub_string_length) )){
-					respective_bracket_not_found = false; 
-					s.erase(i,sub_string_length); //remove substring
-					break;
-				}
-				else{return false;}
+					case ']':
+						//("\npopped %c", stack.back());
+						if (stack.back() != '[') return false;
+						stack.pop_back();
+						break;
+
+					default:
+						//printf("\npushing %c", current_char);
+						return false;
+					}
+
 			}
-		 } 
-
-
-		if(respective_bracket_not_found) return false;
-
-	 }
-	 return true; //string now empty as all brackets now have respective counterparts
-	} 
-  
+			else return false;
+		}
+		return stack.empty();
+	}
 };
-
-
 int main()
 {
 	Solution solution_one;
+	//simple tests	
 	
-	
-	//printf("\nstring valid: %s", solution_one.isValid("[({(())}[()])]") ? "true" : "false");
-	//printf("\nstring valid: %s", solution_one.isValid("((") ? "true" : "false");
-//	printf("\nstring valid: %s", solution_one.isValid("{({()[]})}") ? "true" : "false");
-	//printf("\n string valid: %s", solution_one.isValid("{}()[]") ? "true" : "false");
-	//printf("\nstring valid: %s", solution_one.isValid("{[}]") ? "true" : "false");
+	printf("\n expected: True -> result: %s", solution_one.isValid("[({(())}[()])]") ? "true" : "false");
+	printf("\n expected: False -> result: %s", solution_one.isValid("((") ? "true" : "false");
+	printf("\n expected: True -> result: %s", solution_one.isValid("{({()[]})}") ? "true" : "false");
+	printf("\n expected: True -> result: %s", solution_one.isValid("{}()[]") ? "true" : "false");
+	printf("\n expected: False  -> result: %s", solution_one.isValid("{[}]") ? "true" : "false");
+	printf("\n expected: False -> result: %s", solution_one.isValid("]{") ? "true" : "false");
+	printf("\n expected: False -> result: %s", solution_one.isValid("]") ? "true" : "false");
+
 
 
 
